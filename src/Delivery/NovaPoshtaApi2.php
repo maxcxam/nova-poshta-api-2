@@ -190,7 +190,8 @@ class NovaPoshtaApi2
                 ? $data
                 : json_decode($data, 1);
             // If error exists, throw Exception
-            if ($this->throwErrors and $result['errors']) {
+            // add check if array key exists, coz symfony return error 500 "Notice: Trying to access array offset on value of type null"
+            if ($this->throwErrors and array_key_exists('errors', $result)) {
                 throw new \Exception(is_array($result['errors']) ? implode("\n", $result['errors']) : $result['errors']);
             }
             return $result;
